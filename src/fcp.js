@@ -64,3 +64,7 @@ $.fn.fullCircleProgress = function(parameters){
         })
     }
 }
+
+function toRadians (angle) {
+  return angle * (Math.PI / 180);
+}
