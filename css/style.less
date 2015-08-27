@@ -1,0 +1,62 @@
+@color1: #26c2cc;
+@color2: #414141;
+@lightFont: #FFF;
+@darkFont: #333;
+
+@font-face {
+    font-family: ubufi;
+    src: url(../fonts/ubufi.woff);
+}
+
+body{
+    font-family: ubufi
+}
+
+.header-bar{
+    background: @color1;
+    color: @lightFont;
+    padding-bottom: 5px;
+    border-bottom: 9px solid @color2;
+    .logo{
+        display: inline-block;
+    }
+    .website-name{
+        display: inline-block;
+        vertical-align: bottom;
+        font-size: 80px;
+    }
+    .user-data{
+        text-align: right;
+        text-transform: capitalize;
+    }
+}
+
+.form-block{
+    .title{
+        background: @color2;
+        color: @lightFont;
+        border-radius: 10px 10px 0px 0px;
+        margin-bottom: 0;
+    }
+    .form{
+        color: @lightFont;
+        background: @color1;
+        padding: 10px 5px;
+        border: 2px solid @color2;
+        border-radius: 0px 0px 10px 10px;
+        .date-input{
+            color: @darkFont;
+        }
+    }
+    .subtitle{
+        margin-top: 0;
+        border-bottom: 2px solid @lightFont;
+        button{
+            margin: 0;
+            padding: 0px 5px;
+        }
+    }
+    .form-division:not(:first-child){
+        border-left: 2px solid @lightFont;
+    }
+}
