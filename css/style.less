@@ -1,5 +1,8 @@
-@color1: #26c2cc;
-@color2: #414141;
+@color1: #031634;
+@color2: #033649;
+@color3: #CDB380;
+@color4: #036564;
+@color5: #E8DDCB;
 @lightFont: #FFF;
 @darkFont: #333;
 
@@ -9,14 +12,19 @@
 }
 
 body{
-    font-family: ubufi
+    font-family: ubufi;
+}
+
+.btn-semitrans{
+    background: fade(@lightFont, 30%);
+    border: 1px solid @lightFont;
 }
 
 .header-bar{
-    background: @color1;
+    background: @color4;
     color: @lightFont;
     padding-bottom: 5px;
-    border-bottom: 9px solid @color2;
+    border-bottom: 9px solid @color1;
     .logo{
         display: inline-block;
     }
@@ -28,6 +36,9 @@ body{
     .user-data{
         text-align: right;
         text-transform: capitalize;
+    }
+    .btn{
+        font-size: 20px;
     }
 }
 
