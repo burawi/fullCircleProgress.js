@@ -17,7 +17,7 @@ $('myDiv').fullCircleProgress({
 # Params
 #### Required:
 - **side**: the diameter of the circle in pixels
-- **levels**: the total number of divisions in the circle. *(Must be > 1)*
+- **levels**: the total number of division in the circle. *(Must be > 1)*
 - **level**: the current level.
 
 #### Optional:
@@ -39,4 +39,18 @@ if neither colors nor alternativeColor are initialized then the levels will be f
 - **onClick**: function executed on click on any level it gives the level clicked. Example:
 ```javascript
 function(level){alert(level)}
+```
+- **onHover**: array of two functions, to be executed when the mouse pointer enters and leaves the level. Example:
+```javascript
+onHover: [
+    function(level){
+        alert('entred in level '+level)
+    },function(level){
+        alert('left level '+level)
+    }
+]
+```
+- **hoverStyle**: css style object (same as achievedStyle & leftStyle), affected to level on mouse enter or leave.By default *(only if onClick or onHover are initialized)*:
+```javascript
+{"opacity": "0.8"}
 ```

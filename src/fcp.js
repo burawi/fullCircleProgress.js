@@ -1,3 +1,6 @@
+function toRadians (angle) {
+  return angle * (Math.PI / 180);
+}
 $.fn.fullCircleProgress = function(parameters){
     var data = {};
     $.extend(data,parameters);
@@ -36,20 +39,27 @@ $.fn.fullCircleProgress = function(parameters){
     }
     svg += '</svg>';
     $(this).append(svg);
-    var achievedStyle,leftStyle;
+    var achievedStyle,leftStyle,hoverStyle;
     if(data.achievedStyle != null){
         achievedStyle = data.achievedStyle;
     }else{
         achievedStyle = {
             "opacity": "1"
-        }
+        };
     }
     if(data.leftStyle != null){
         leftStyle = data.leftStyle;
     }else{
         leftStyle = {
             "opacity": "0.3"
-        }
+        };
+    }
+    if(data.hoverStyle != null){
+        hoverStyle = data.hoverStyle;
+    }else{
+        hoverStyle = {
+            "opacity": "0.8"
+        };
     }
     for(var i = 0; i < data.levels; i++){
         if(i < data.level)
@@ -58,13 +68,30 @@ $.fn.fullCircleProgress = function(parameters){
             $(this).find('[level='+(i+1)+']').css(leftStyle);
     }
     if(data.onClick != null){
-        $(this).find('g').css("cursor","pointer");
         $(this).find('g').click(function(){
             data.onClick($(this).attr('level'));
-        })
+        });
     }
-}
-
-function toRadians (angle) {
-  return angle * (Math.PI / 180);
+    if(data.onHover != null){
+        $(this).find('g').hover(
+            function(){
+                data.onHover[0]($(this).attr('level'));
+            },function(){
+                data.onHover[1]($(this).attr('level'));
+            }
+        );
+    }
+    if(data.onHover != null || data.onClick != null){
+        $(this).find('g').css("cursor","pointer");
+        $(this).find('g').hover(
+            function(){
+                $(this).css(hoverStyle);
+            },function(){
+                if($(this).attr('level') <= data.level)
+                    $(this).css(achievedStyle);
+                else
+                    $(this).css(leftStyle);
+            }
+        );
+    }
 }
