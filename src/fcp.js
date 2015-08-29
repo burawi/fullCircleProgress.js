@@ -1,16 +1,19 @@
-function toRadians (angle) {
-  return angle * (Math.PI / 180);
-}
 $.fn.fullCircleProgress = function(parameters){
-    var data = {};
+    var container = this,
+        data = {};
     $.extend(data,parameters);
-    var svg = '<svg width="'+data.side+'" height="'+data.side+'">',
+    var linked = true,
+        svg = '<svg width="'+data.side+'" height="'+data.side+'">',
         center = (data.side) / 2,
-        angle = 360 - (((360 / data.levels) + 360 - 90) % 360);
-        var endPoints = {
+        angle = 360 - (((360 / data.levels) + 360 - 90) % 360),
+        endPoints = {
             x: center + (center * Math.abs(Math.cos(toRadians(angle)))),
             y: center + (center * Math.sin(toRadians(angle)) * -1)
-        };
+        },
+        achievedStyle,leftStyle,hoverStyle;
+    if(data.linked != null){
+        linked = data.linked;
+    }
     if(data.backgroundImage != null){
         var pattern = '<defs><pattern id="bgImageFCP" patternUnits="userSpaceOnUse" width="'+data.side+'" height="'+data.side+'"><image xlink:href="'+data.backgroundImage+'" x="0" y="0" width="'+data.side+'" height="'+data.side+'" /></pattern></defs>';
         svg += pattern;
@@ -38,8 +41,7 @@ $.fn.fullCircleProgress = function(parameters){
         svg += g;
     }
     svg += '</svg>';
-    $(this).append(svg);
-    var achievedStyle,leftStyle,hoverStyle;
+    $(container).append(svg);
     if(data.achievedStyle != null){
         achievedStyle = data.achievedStyle;
     }else{
@@ -61,19 +63,14 @@ $.fn.fullCircleProgress = function(parameters){
             "opacity": "0.8"
         };
     }
-    for(var i = 0; i < data.levels; i++){
-        if(i < data.level)
-            $(this).find('[level='+(i+1)+']').css(achievedStyle);
-        else
-            $(this).find('[level='+(i+1)+']').css(leftStyle);
-    }
+    setStyle();
     if(data.onClick != null){
-        $(this).find('g').click(function(){
+        $(container).find('g').click(function(){
             data.onClick($(this).attr('level'));
         });
     }
     if(data.onHover != null){
-        $(this).find('g').hover(
+        $(container).find('g').hover(
             function(){
                 data.onHover[0]($(this).attr('level'));
             },function(){
@@ -82,16 +79,38 @@ $.fn.fullCircleProgress = function(parameters){
         );
     }
     if(data.onHover != null || data.onClick != null){
-        $(this).find('g').css("cursor","pointer");
-        $(this).find('g').hover(
+        $(container).find('g').css("cursor","pointer");
+        $(container).find('g').hover(
             function(){
-                $(this).css(hoverStyle);
+                var level = parseInt($(this).attr('level'));
+                if(linked){
+                    for(var i = 0; i < level; i++){
+                        $(container).find('[level='+(i+1)+']').css(hoverStyle);
+                    }
+                }else{
+                    $(this).css(hoverStyle);
+                }
             },function(){
-                if($(this).attr('level') <= data.level)
-                    $(this).css(achievedStyle);
-                else
-                    $(this).css(leftStyle);
+                if(linked){
+                    setStyle();
+                }else{
+                    if($(this).attr('level') <= data.level)
+                        $(this).css(achievedStyle);
+                    else
+                        $(this).css(leftStyle);
+                }
             }
         );
+    }
+    function setStyle(){
+        for(var i = 0; i < data.levels; i++){
+            if(i < data.level)
+                $(container).find('[level='+(i+1)+']').css(achievedStyle);
+            else
+                $(container).find('[level='+(i+1)+']').css(leftStyle);
+        }
+    }
+    function toRadians (angle) {
+      return angle * (Math.PI / 180);
     }
 }

@@ -54,3 +54,4 @@ onHover: [
 ```javascript
 {"opacity": "0.8"}
 ```
+- **linked**: boolean. If set to true hoverStyle will affect all levels <= hovered level, else it will affect only hovered level. By default: `true`
